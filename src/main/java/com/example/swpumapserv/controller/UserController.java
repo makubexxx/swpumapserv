@@ -24,14 +24,25 @@ public class UserController extends BaseController{
     @Autowired
     UserService userService;
 
-    //通过一定条件获取设备列表
-    @RequestMapping(value = "/login", method = { RequestMethod.POST, RequestMethod.GET })
-    public  @ResponseBody String login(HttpServletRequest request, HttpServletResponse response,
-                                       @RequestBody String requestbody) throws  Exception
+    //注册
+    @RequestMapping(value = "/register", method = { RequestMethod.POST, RequestMethod.GET })
+    public  @ResponseBody String register(HttpServletRequest request, HttpServletResponse response,
+                                       String studentno, String account ,String passsword ) throws  Exception
     {
 
-       userService.addUser(requestbody);
-       return toJson("success", request, response);
+       int result =userService.addUser(studentno,account,passsword);
+       return toJson(result, request, response);
+    }
+
+
+    //登录
+    @RequestMapping(value = "/login", method = { RequestMethod.POST, RequestMethod.GET })
+    public  @ResponseBody String login(HttpServletRequest request, HttpServletResponse response,
+                                        String username,String passsword) throws  Exception
+    {
+
+        int result =userService.login(username,passsword);
+        return toJson(result, request, response);
     }
 
 }
