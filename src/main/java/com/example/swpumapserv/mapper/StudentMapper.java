@@ -18,7 +18,7 @@ public interface StudentMapper {
     @Insert("insert into student (studentno,is_bind) values (#{studentno},#{is_bind});")
     public void  addStudent(StudentEntity studentEntity);
 
-    @Select("select * from student")
+    @Select("select * from student ")
     public List<StudentEntity> findall();
 
     @Select("select * from student where studentno=#{studentno}")

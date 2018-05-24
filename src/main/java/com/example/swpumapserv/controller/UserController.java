@@ -1,6 +1,7 @@
 package com.example.swpumapserv.controller;
 
 import com.example.swpumapserv.base.BaseController;
+import com.example.swpumapserv.entity.UserEntity;
 import com.example.swpumapserv.myservice.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * @description:
@@ -40,8 +42,14 @@ public class UserController extends BaseController{
     public  @ResponseBody String login(HttpServletRequest request, HttpServletResponse response,
                                         String username,String passsword) throws  Exception
     {
-
-        int result =userService.login(username,passsword);
+        int result=1;
+        UserEntity userEntity =userService.login(username,passsword);
+        if (userEntity!=null)
+        {
+            result=0;
+            HttpSession session =request.getSession();
+            session.setAttribute("user",userEntity);
+        }
         return toJson(result, request, response);
     }
 

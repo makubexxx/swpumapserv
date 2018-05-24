@@ -22,4 +22,7 @@ public interface UserMapper {
     public  UserEntity findUser(@Param("account") String account);
 
 
+    @Select("select * from user where studentno=#{studentno}")
+    public  UserEntity findUserBystudentno(@Param("studentno") String studentno);
+
 }

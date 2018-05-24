@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,11 +37,6 @@ public class UserService extends BaseService {
     UserMapper userMapper;
     @Autowired
     StudentMapper studentMapper;
-    @Autowired
-    private HttpSession session;
-
-    @Autowired
-    private HttpServletRequest request;
     public  int  addUser(  String studentno, String account ,String passsword ) throws CyWebException
     {
         //根据studentno;
@@ -59,30 +56,26 @@ public class UserService extends BaseService {
 
     }
 
-    public  int  login(String account ,String password) throws CyWebException
+    public  UserEntity  login(String account ,String password) throws CyWebException
     {
-         int result;
          //通过username 取 entity
         UserEntity  userEntity =userMapper.findUser(account);
         //通过账号查找不到id  说明用户不存在
        if(userEntity==null)
         {
-            result= 1;
+            return  null;
         }
         else
        {
            if (userEntity.getPassword().equals(password))
            {
 
-               session = request.getSession();
-               session.setAttribute("user",userEntity);
-               result=  0;
+               return  userEntity;
            }
            else {
-               result=  1;
+               return  null;
            }
        }
-        return  result;
 
     }
 

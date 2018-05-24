@@ -4,8 +4,9 @@ $(document).ready(function(){
             $("#table").append("   <tr>\n" +
                 "                <td><input type=\"checkbox\" /></td>\n" +
                 "                <td>1</td>\n" +
-                "                <td><a href=\"#\">"+item.studentno+"</a></td>\n" +
-                "                <td>"+item.is_bind+"</td>\n" +
+                "                <td>"+item.studentno+"</td>\n" +
+                "                <td>"+item.is_bindstr+"</td>\n" +
+                "                <td><a href='user-table.html?account="+item.account+"'>"+item.account+"</a></td>\n" +
                 "                </td>\n" +
                 "              </tr>");
         });
@@ -13,21 +14,21 @@ $(document).ready(function(){
 });
 
 
-    $('#doc-prompt-toggle').on('click', function() {
-        $('#my-prompt').modal({
-            relatedTarget: this,
-            onConfirm: function(e) {
-                $.ajax({
-                    type: "post",
-                    url: "/lvqinglong/v1/student/add",
-                    data: {account:e.data }, //可选参数
-                    success: function (data) {
-                        alert("添加成功");
-
-                    } //可选参数
-                });
-            },
-            onCancel: function(e) {
-            }
-        });
+$('#doc-prompt-toggle').on('click', function() {
+    $('#my-prompt').modal({
+        relatedTarget: this,
+        onConfirm: function(e) {
+            $.ajax({
+                type: "post",
+                url: "/lvqinglong/v1/student/add",
+                data: {account:e.data }, //可选参数
+                success: function (data) {
+                    alert("添加成功");
+                    location.reload();
+                } //可选参数
+            });
+        },
+        onCancel: function(e) {
+        }
     });
+});
